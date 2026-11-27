@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Narthecium — 7-slide demo</title>
+    <style>
+      :root { color-scheme: dark; }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; height: 100%; background: #050a12; color: #f4f7fc; font-family: "Avenir Next", "Segoe UI", sans-serif; }
+      .deck { height: 100%; }
+      .slide {
+        display: none;
+        min-height: 100%;
+        padding: 7vh 8vw 10vh;
+        background:
+          radial-gradient(ellipse at 80% 20%, rgba(38, 155, 255, 0.16), transparent 42%),
+          #050a12;
+      }
+      .slide.on { display: flex; flex-direction: column; justify-content: center; }
+      p.kicker { margin: 0 0 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #55d5ff; font-size: 13px; }
+      h1, h2 { font-family: Palatino, "Iowan Old Style", "Palatino Linotype", serif; font-weight: 500; }
+      h1 { margin: 0; font-size: clamp(40px, 6vw, 72px); letter-spacing: -0.03em; max-width: 16ch; }
+      h2 { margin: 0 0 18px; font-size: clamp(32px, 4vw, 52px); letter-spacing: -0.03em; }
+      p { max-width: 62ch; font-size: 22px; line-height: 1.45; color: #d5deea; }
+      ul { margin: 8px 0 0; padding: 0; list-style: none; max-width: 70ch; }
+      li { font-size: 22px; line-height: 1.4; margin: 10px 0; padding-left: 0; }
+      li strong { color: #55d5ff; font-weight: 500; }
+      .nav {
+        position: fixed; left: 8vw; right: 8vw; bottom: 28px;
+        display: flex; justify-content: space-between; align-items: center;
+        color: #8c9aaa; font-size: 14px;
+      }
+      button {
+        background: transparent; color: #f4f7fc; border: 1px solid rgba(150, 190, 225, 0.35);
+        border-radius: 999px; min-height: 36px; padding: 6px 14px; font: inherit; cursor: pointer;
+      }
+      a { color: #55d5ff; }
+    </style>
+  </head>
+  <body>
+    <div class="deck" id="deck">
+      <section class="slide on">
+        <p class="kicker">NASA Space Apps · Team Apothecaries</p>
+        <h1>Narthecium</h1>
+        <p>A crew health instrument for a mission with no hospital in reach. It watches one astronaut’s own baseline, not an average body.</p>
+      </section>
+      <section class="slide">
+        <p class="kicker">The problem</p>
+        <h2>Slow change is easy to miss.</h2>
+        <p>Bone, sleep, mood, and a rising heart rate can drift for days before anyone names them. On a Mars transit the reply from Earth can take many minutes. The crew has to notice first.</p>
+      </section>
+      <section class="slide">
+        <p class="kicker">The instrument</p>
+        <h2>Five hazards. One sentence.</h2>
+        <ul>
+          <li><strong>Baseline.</strong> Days 1–14 belong to that person.</li>
+          <li><strong>Rings.</strong> Radiation, isolation, gravity, the closed cabin, distance from Earth.</li>
+          <li><strong>Alert.</strong> “Sleep efficiency has been falling for 9 days.”</li>
+        </ul>
+      </section>
+      <section class="slide">
+        <p class="kicker">Cabin or you</p>
+        <h2>The cause is part of the finding.</h2>
+        <p>The instrument compares the rest of the crew and the cabin sensors. If only one person moved, it says personal. If the air moved with them, it names the cabin. Day 105 is personal sleep. Day 121 is cabin CO₂.</p>
+      </section>
+      <section class="slide">
+        <p class="kicker">What the crew does</p>
+        <h2>Log, then act.</h2>
+        <ul>
+          <li><strong>Labs.</strong> Enter blood pressure, heart rate, glucose, temperature, sleep.</li>
+          <li><strong>Neurology.</strong> Mark mood, name the feeling, name what drove it.</li>
+          <li><strong>Treatments.</strong> The rules print the next steps. A chatbot cannot change them.</li>
+        </ul>
+      </section>
+      <section class="slide">
+        <p class="kicker">One simulated mission</p>
+        <h2>Four marks on the timeline.</h2>
+        <ul>
+          <li><strong>Day 40.</strong> Solar particle event. Radiation goes to Act.</li>
+          <li><strong>Day 96.</strong> Crewmates notice Voss before the curve does.</li>
+          <li><strong>Day 105.</strong> Sleep has been falling for 9 days. Personal.</li>
+          <li><strong>Day 121.</strong> Cabin air. Not an illness.</li>
+        </ul>
+      </section>
+      <section class="slide">
+        <p class="kicker">What it is not</p>
+        <h2>Monitoring. Not a diagnosis.</h2>
+        <p>The mission is simulated. The body is an illustration, not a scan. Severe blood pressure uses the CDC table and is labeled as such. Open the project, stay on Mars transit, and jump to day 105.</p>
+        <p><a id="app" href="./">Open the instrument</a></p>
+      </section>
+    </div>
+    <div class="nav">
+      <button type="button" id="prev">Back</button>
+      <span id="count">1 / 7</span>
+      <button type="button" id="next">Next</button>
+    </div>
+    <script>
+      const slides = [...document.querySelectorAll(".slide")];
+      let i = 0;
+      const count = document.getElementById("count");
+      function show(n) {
+        i = (n + slides.length) % slides.length;
+        slides.forEach((slide, index) => slide.classList.toggle("on", index === i));
+        count.textContent = (i + 1) + " / " + slides.length;
+      }
+      document.getElementById("next").onclick = () => show(i + 1);
+      document.getElementById("prev").onclick = () => show(i - 1);
+      window.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowRight" || event.key === " ") show(i + 1);
+        if (event.key === "ArrowLeft") show(i - 1);
+      });
+    </script>
+  </body>
+</html>
